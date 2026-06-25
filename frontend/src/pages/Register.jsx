@@ -2,17 +2,19 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
 function Register() {
-
     const navigate = useNavigate()
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
-    const handleRegister = async () => {
+    const handleRegister = async (e) => {
+        // Prevent default HTML form submission behavior (allows Enter key to work safely)
+        if (e) e.preventDefault()
 
+        setIsLoading(true)
         try {
-
             const response = await fetch(
                 "http://127.0.0.1:8000/auth/register",
                 {
@@ -31,81 +33,108 @@ function Register() {
             const data = await response.json()
 
             if (!response.ok) {
-                alert("Registration failed")
+                alert(data.detail || "Registration failed")
                 return
             }
 
             navigate("/verify-otp", { state: { email } })
-
         } catch (error) {
-
             console.error(error)
             alert("Registration failed")
-
+        } finally {
+            setIsLoading(false)
         }
-
     }
 
     return (
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 flex items-center justify-center p-4 transition-colors duration-300">
+            {/* Ambient Background Glows matching the Login Page */}
+            <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-purple-400/20 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-blue-400/20 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center transition-colors">
+            <div className="relative backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 p-8 md:p-10 rounded-2xl shadow-2xl w-full max-w-md transition-all duration-300 hover:shadow-purple-500/5">
+                
+                {/* Header */}
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
+                        Create an Account
+                    </h1>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Join us today! Please fill in your details.
+                    </p>
+                </div>
 
-            <div className="bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-xl w-[400px]">
+                {/* Form Wrapper */}
+                <form onSubmit={handleRegister} className="space-y-5">
+                    {/* Name Field */}
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">
+                            Full Name
+                        </label>
+                        <input
+                            type="text"
+                            required
+                            placeholder="John Doe"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full border border-gray-300/80 dark:border-gray-700/80 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200"
+                        />
+                    </div>
 
-                <h1 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
-                    Register
-                </h1>
+                    {/* Email Field */}
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">
+                            Email Address
+                        </label>
+                        <input
+                            type="email"
+                            required
+                            placeholder="name@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full border border-gray-300/80 dark:border-gray-700/80 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200"
+                        />
+                    </div>
 
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-3 rounded-xl mb-4"
-                />
+                    {/* Password Field */}
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            required
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full border border-gray-300/80 dark:border-gray-700/80 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-200"
+                        />
+                    </div>
 
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-3 rounded-xl mb-4"
-                />
+                    {/* Submit Button with explicit hand cursor pointer handling */}
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-gray-900 hover:bg-gray-800 dark:bg-purple-600 dark:hover:bg-purple-500 text-white py-3 rounded-xl font-medium shadow-md hover:shadow-lg active:scale-[0.99] transition-all duration-150 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isLoading ? "Creating account..." : "Register"}
+                    </button>
+                </form>
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full border dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-3 rounded-xl mb-4"
-                />
-
-                <button
-                    onClick={handleRegister}
-                    className="w-full bg-black dark:bg-gray-600 text-white py-3 rounded-xl"
-                >
-                    Register
-                </button>
-
-                <p className="text-center mt-4 text-gray-700 dark:text-gray-300">
-
+                {/* Footer Link */}
+                <p className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
                     Already have an account?
-
                     <Link
                         to="/"
-                        className="text-blue-600 dark:text-blue-400 ml-1"
+                        className="text-purple-600 dark:text-purple-400 hover:underline ml-1.5 font-medium transition-colors cursor-pointer"
                     >
                         Login
                     </Link>
-
                 </p>
 
             </div>
-
         </div>
-
     )
-
 }
 
 export default Register
