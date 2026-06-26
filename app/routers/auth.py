@@ -33,17 +33,33 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 )
 async def register(user_data: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user_data.email.lower()).first()
-    if existing_user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="An account with this email already exists"
-        )
 
     otp = str(random.randint(100000, 999999))
     otp_expiry = datetime.now(timezone.utc) + timedelta(minutes=10)
-
     hashed = hash_password(user_data.password)
 
+    if existing_user:
+        if existing_user.is_verified:
+            # ✅ Already verified — genuinely a duplicate account
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="An account with this email already exists"
+            )
+
+        # ✅ Unverified — overwrite their old attempt with new details + new OTP
+        existing_user.name = user_data.name.strip()
+        existing_user.password_hash = hashed
+        existing_user.otp = otp
+        existing_user.otp_expiry = otp_expiry
+
+        db.commit()
+        db.refresh(existing_user)
+
+        await send_otp_email(existing_user.email, otp)
+
+        return existing_user
+
+    # ✅ Brand new user — create as before
     new_user = User(
         name=user_data.name.strip(),
         email=user_data.email.lower().strip(),

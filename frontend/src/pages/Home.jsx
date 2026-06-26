@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import api from "../services/api"
-import { 
-    FileText, 
-    Plus, 
-    Trash2, 
-    FolderOpen, 
-    Settings as SettingsIcon, 
-    LogOut, 
+import {
+    FileText,
+    Plus,
+    Trash2,
+    FolderOpen,
+    Settings as SettingsIcon,
+    LogOut,
     X,
     LayoutDashboard,
     ChevronRight
@@ -16,7 +16,7 @@ import {
 function Home() {
     const navigate = useNavigate()
     const location = useLocation()
-    
+
     const [projects, setProjects] = useState([])
     const [loading, setLoading] = useState(true)
     const [newName, setNewName] = useState("")
@@ -24,15 +24,21 @@ function Home() {
     const [creating, setCreating] = useState(false)
 
     // Fallback user state structure for the profile badge
-    const [user] = useState({
-        name: "Alex Mercer", 
-        email: "alex@axoryn.ai",
-        avatar: "" // Leave empty to auto-generate initials badge
-    })
+    const [user, setUser] = useState({ name: "", email: "", avatar_url: "" })
 
     useEffect(() => {
         fetchProjects()
+        fetchUser()
     }, [])
+
+    const fetchUser = async () => {
+        try {
+            const res = await api.get("/users/me")
+            setUser(res.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const fetchProjects = async () => {
         try {
@@ -91,7 +97,7 @@ function Home() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 flex transition-colors duration-300 relative overflow-x-hidden">
-            
+
             {/* Ambient Background Glow System */}
             <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -112,14 +118,13 @@ function Home() {
                     {/* Navigation Menu Links */}
                     <div className="space-y-1.5">
                         <p className="px-2 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Main Core</p>
-                        
+
                         <button
                             onClick={() => navigate("/home")}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${
-                                location.pathname === "/home" 
-                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10" 
-                                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
-                            }`}
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/home"
+                                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
+                                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
+                                }`}
                         >
                             <LayoutDashboard className="w-4 h-4" />
                             Workspaces
@@ -127,11 +132,10 @@ function Home() {
 
                         <button
                             onClick={() => navigate("/all-documents")}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${
-                                location.pathname === "/all-documents" 
-                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10" 
-                                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
-                            }`}
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/all-documents"
+                                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
+                                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
+                                }`}
                         >
                             <FolderOpen className="w-4 h-4" />
                             All Documents
@@ -144,11 +148,10 @@ function Home() {
                     {/* Settings Button - Now moved here right above Logout */}
                     <button
                         onClick={() => navigate("/settings")}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${
-                            location.pathname === "/settings" 
-                            ? "bg-blue-600 text-white shadow-md shadow-blue-500/10" 
-                            : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
-                        }`}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/settings"
+                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
+                                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
+                            }`}
                     >
                         <SettingsIcon className="w-4 h-4" />
                         Settings
@@ -167,7 +170,7 @@ function Home() {
 
             {/* Content Hub Wrapper */}
             <div className="flex-1 md:pl-64 flex flex-col min-h-screen">
-                
+
                 {/* Enhanced Dynamic Profile Top Bar Container */}
                 <header className="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200/50 dark:border-gray-800/50 px-6 lg:px-10 py-3.5 flex justify-between md:justify-end items-center transition-all">
                     {/* Mobile Only Brand Indicator */}
@@ -179,12 +182,12 @@ function Home() {
                     </div>
 
                     {/* Premium Profile Interactive Badge */}
-                    <div 
+                    <div
                         onClick={() => navigate("/profile")}
                         className="flex items-center gap-3 p-1.5 pr-3 hover:bg-gray-100 dark:hover:bg-gray-800/60 border border-transparent hover:border-gray-200/60 dark:hover:border-gray-700/60 rounded-xl transition-all duration-200 cursor-pointer group"
                     >
-                        {user.avatar ? (
-                            <img src={user.avatar} alt="Profile" className="h-8 w-8 rounded-lg object-cover ring-2 ring-blue-500/10" />
+                        {user.avatar_url ? (
+                            <img src={user.avatar_url} alt="Profile" className="h-8 w-8 rounded-lg object-cover ring-2 ring-blue-500/10" />
                         ) : (
                             <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-sm shadow-blue-500/20">
                                 {getInitials(user.name)}
@@ -204,7 +207,7 @@ function Home() {
 
                 {/* Main Dynamic Viewport Workspace Canvas */}
                 <main className="px-6 lg:px-10 py-10 max-w-5xl w-full mx-auto flex-1 relative z-10">
-                    
+
                     {/* Workspace Segment Title Module */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
                         <div>
@@ -215,14 +218,13 @@ function Home() {
                                 Create workspace instances to safely catalog documents and activate specialized AI agents.
                             </p>
                         </div>
-                        
+
                         <button
                             onClick={() => setCreating(!creating)}
-                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all shadow-md cursor-pointer active:scale-98 self-start sm:self-center ${
-                                creating 
-                                ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200" 
-                                : "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/10"
-                            }`}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all shadow-md cursor-pointer active:scale-98 self-start sm:self-center ${creating
+                                    ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
+                                    : "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/10"
+                                }`}
                         >
                             {creating ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                             {creating ? "Close Form" : "New Project"}
@@ -321,7 +323,7 @@ function Home() {
                                             {p.description || "No supplemental descriptor profiles designated for this active workspace."}
                                         </p>
                                     </div>
-                                    
+
                                     <div className="mt-5 pt-3 border-t border-gray-100 dark:border-gray-800/80 flex justify-between items-center">
                                         <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 group-hover:underline flex items-center gap-1">
                                             Open Workspace →

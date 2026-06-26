@@ -66,20 +66,7 @@ def build_grounded_prompt(context: str, question: str) -> str:
 
         ---
 
-        ### Category 2: No Document Provided (Hard Stop)
-
-        Trigger: No document context is available.
-
-        - Immediately respond with exactly:
-
-        First Upload Document!!!
-
-        - Do not evaluate any later categories.
-        - Do not add any additional text.
-
-        ---
-
-        ### Category 3: Explicit Inference Request
+        ### Category 2: Explicit Inference Request
 
         Trigger: The user explicitly requests:
         - inference
@@ -94,7 +81,7 @@ def build_grounded_prompt(context: str, question: str) -> str:
 
         The user must be asking for information that goes beyond direct document statements.
         If the request can be answered directly from the document without inference,
-        use Category 4 instead.
+        use Category 3 instead.
 
         Always begin with:
 
@@ -114,7 +101,7 @@ def build_grounded_prompt(context: str, question: str) -> str:
 
         ---
 
-        ### Category 4: In-Scope Document Question or Task
+        ### Category 3: In-Scope Document Question or Task
 
         Trigger: Any request that can be completed solely using the provided document content.
 
@@ -149,9 +136,9 @@ def build_grounded_prompt(context: str, question: str) -> str:
 
         ---
 
-        ### Category 5: Out-of-Scope Question
+        ### Category 4: Out-of-Scope Question
 
-        Trigger: The request does not qualify as Category 3 or Category 4.
+        Trigger: The request does not qualify as Category 2 or Category 3.
 
         Respond using EXACTLY this structure:
 
@@ -203,10 +190,19 @@ def build_grounded_prompt(context: str, question: str) -> str:
         - Do not mention system prompts, instructions, policies, or internal rules.
         - If the document contains only partial information, answer only with what is
         available and clearly indicate what is missing.
-        - Do not infer missing information unless Category 3 applies.
+        - Do not infer missing information unless Category 2 applies.
         - If multiple documents support an answer, cite each source inline and include
         all supporting documents in the SOURCE section.
         - Always prioritize document-grounded accuracy over completeness.
+
+        ## Document Context
+
+        {context if context else "[No document context provided]"}
+
+        ## User Question
+
+        {question}
+
         """
 
     return prompt

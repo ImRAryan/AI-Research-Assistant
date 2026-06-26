@@ -16,21 +16,27 @@ function Dashboard() {
     const [messages, setMessages] = useState([])
     const [streamingText, setStreamingText] = useState("")
     const [isStreaming, setIsStreaming] = useState(false)
-    const [hasDocuments, setHasDocuments] = useState(true) 
+    const [hasDocuments, setHasDocuments] = useState(true)
     const [checkingDocs, setCheckingDocs] = useState(true)
 
     // Fallback user state structure for the profile badge
-    const [user] = useState({
-        name: "Alex Mercer", 
-        email: "alex@axoryn.ai",
-        avatar: "" 
-    })
+    const [user, setUser] = useState({ name: "", email: "", avatar_url: "" })
 
     useEffect(() => {
         fetchProject()
         fetchChats()
+        fetchUser()
         checkDocuments()
     }, [projectId])
+
+    const fetchUser = async () => {
+        try {
+            const res = await api.get("/users/me")
+            setUser(res.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const fetchProject = async () => {
         try {
@@ -164,7 +170,7 @@ function Dashboard() {
 
     return (
         <div className="flex h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 transition-colors duration-300 relative overflow-hidden">
-            
+
             {/* Ambient Background Glow System */}
             <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -209,11 +215,10 @@ function Dashboard() {
                                 <div
                                     key={chat.id}
                                     onClick={() => loadChat(chat.id)}
-                                    className={`flex items-center justify-between px-3 py-2 rounded-xl cursor-pointer group transition-all text-sm font-medium ${
-                                        activeChatId === chat.id
+                                    className={`flex items-center justify-between px-3 py-2 rounded-xl cursor-pointer group transition-all text-sm font-medium ${activeChatId === chat.id
                                             ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200/50 dark:border-gray-700/50"
                                             : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/40 hover:text-gray-900 dark:hover:text-white"
-                                    }`}
+                                        }`}
                                 >
                                     <div className="flex items-center gap-2.5 overflow-hidden">
                                         <MessageSquare className={`w-4 h-4 shrink-0 ${activeChatId === chat.id ? "text-blue-500" : "text-gray-400"}`} />
@@ -252,7 +257,7 @@ function Dashboard() {
 
             {/* Content Hub Wrapper */}
             <div className="flex-1 md:pl-64 flex flex-col min-h-screen overflow-hidden">
-                
+
                 {/* Profile Top Bar Header Container */}
                 <header className="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200/50 dark:border-b-gray-800/50 px-6 lg:px-10 py-3.5 flex justify-between items-center transition-all">
                     {/* Header Action Routing Triggers */}
@@ -267,12 +272,12 @@ function Dashboard() {
                     </div>
 
                     {/* Active State Premium Profile Interactive Badge */}
-                    <div 
+                    <div
                         onClick={() => navigate("/profile")}
                         className="flex items-center gap-3 p-1.5 pr-3 hover:bg-gray-100 dark:hover:bg-gray-800/60 border border-transparent hover:border-gray-200/60 dark:hover:border-gray-700/60 rounded-xl transition-all duration-200 cursor-pointer group"
                     >
-                        {user.avatar ? (
-                            <img src={user.avatar} alt="Profile" className="h-8 w-8 rounded-lg object-cover" />
+                        {user.avatar_url ? (
+                            <img src={user.avatar_url} alt="Profile" className="h-8 w-8 rounded-lg object-cover ring-2 ring-blue-500/10" />
                         ) : (
                             <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-sm">
                                 {getInitials(user.name)}
@@ -327,7 +332,7 @@ function Dashboard() {
                             {messages.length === 0 && !isStreaming ? (
                                 <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto text-center relative z-10 animate-in fade-in duration-300">
                                     <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">
-                                        Vector Research Engine 
+                                        Vector Research Engine
                                         <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-1">
                                             AxorynAI Context Hub
                                         </span>
@@ -343,11 +348,10 @@ function Dashboard() {
                                             key={msg.id}
                                             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom-2 duration-200`}
                                         >
-                                            <div className={`max-w-[85%] px-5 py-3.5 rounded-2xl text-sm leading-relaxed font-medium ${
-                                                msg.role === "user"
+                                            <div className={`max-w-[85%] px-5 py-3.5 rounded-2xl text-sm leading-relaxed font-medium ${msg.role === "user"
                                                     ? "bg-blue-600 text-white shadow-md shadow-blue-500/5 rounded-tr-none"
                                                     : "backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 text-gray-800 dark:text-gray-200 shadow-sm rounded-tl-none"
-                                            }`}>
+                                                }`}>
                                                 {msg.role === "assistant" ? (
                                                     <div className="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 prose-headings:font-bold prose-p:leading-relaxed prose-pre:bg-gray-50 dark:prose-pre:bg-gray-950/60 prose-pre:border dark:prose-pre:border-gray-800">
                                                         <ReactMarkdown>{msg.content}</ReactMarkdown>
@@ -388,7 +392,7 @@ function Dashboard() {
                         {/* Prompt Input Control Hub Footer */}
                         <div className="px-6 lg:px-10 py-6 backdrop-blur-md bg-white/40 dark:bg-gray-900/40 border-t border-gray-200/50 dark:border-gray-800/50 relative z-20">
                             <div className="max-w-3xl mx-auto flex items-center gap-3">
-                                
+
                                 <div className="flex items-center backdrop-blur-md bg-white/90 dark:bg-gray-800/50 border border-gray-300/60 dark:border-gray-700/60 rounded-2xl px-4 py-3 flex-1 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all duration-200">
                                     <input
                                         type="text"

@@ -19,3 +19,12 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class UserUpdate(BaseModel):                          # ✅ new
+    name: str = Field(..., min_length=2, max_length=100)
+
+
+class ChangePasswordRequest(BaseModel):                # ✅ new
+    current_password: str = Field(..., min_length=1)
+    new_password: str = Field(..., min_length=8, max_length=100)

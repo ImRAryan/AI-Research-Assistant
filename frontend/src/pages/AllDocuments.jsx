@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import api from "../services/api"
-import { 
-    FileText, 
-    FolderOpen, 
-    Settings as SettingsIcon, 
-    LogOut, 
+import {
+    FileText,
+    FolderOpen,
+    Settings as SettingsIcon,
+    LogOut,
     LayoutDashboard,
     ChevronRight,
     SlidersHorizontal
@@ -14,23 +14,29 @@ import {
 function AllDocuments() {
     const navigate = useNavigate()
     const location = useLocation()
-    
+
     const [documents, setDocuments] = useState([])
     const [projects, setProjects] = useState([])
     const [loading, setLoading] = useState(true)
     const [selectedProject, setSelectedProject] = useState("")
 
     // Fallback user state structure for the profile badge
-    const [user] = useState({
-        name: "Alex Mercer", 
-        email: "alex@axoryn.ai",
-        avatar: "" 
-    })
+    const [user, setUser] = useState({ name: "", email: "", avatar_url: "" })
 
     useEffect(() => {
         fetchProjects()
         fetchDocuments()
+        fetchUser()
     }, [])
+
+    const fetchUser = async () => {
+        try {
+            const res = await api.get("/users/me")
+            setUser(res.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const fetchProjects = async () => {
         try {
@@ -90,7 +96,7 @@ function AllDocuments() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 flex transition-colors duration-300 relative overflow-x-hidden">
-            
+
             {/* Ambient Background Glow System */}
             <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -111,14 +117,13 @@ function AllDocuments() {
                     {/* Navigation Menu Links */}
                     <div className="space-y-1.5">
                         <p className="px-2 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Main Core</p>
-                        
+
                         <button
                             onClick={() => navigate("/home")}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${
-                                location.pathname === "/home" 
-                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10" 
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/home"
+                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
                                 : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
-                            }`}
+                                }`}
                         >
                             <LayoutDashboard className="w-4 h-4" />
                             Workspaces
@@ -126,11 +131,10 @@ function AllDocuments() {
 
                         <button
                             onClick={() => navigate("/all-documents")}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${
-                                location.pathname === "/all-documents" 
-                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10" 
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/all-documents"
+                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
                                 : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
-                            }`}
+                                }`}
                         >
                             <FolderOpen className="w-4 h-4" />
                             All Documents
@@ -142,11 +146,10 @@ function AllDocuments() {
                 <div className="space-y-1">
                     <button
                         onClick={() => navigate("/settings")}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${
-                            location.pathname === "/settings" 
-                            ? "bg-blue-600 text-white shadow-md shadow-blue-500/10" 
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/settings"
+                            ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
                             : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
-                        }`}
+                            }`}
                     >
                         <SettingsIcon className="w-4 h-4" />
                         Settings
@@ -164,7 +167,7 @@ function AllDocuments() {
 
             {/* Content Hub Wrapper */}
             <div className="flex-1 md:pl-64 flex flex-col min-h-screen">
-                
+
                 {/* Enhanced Dynamic Profile Top Bar Container */}
                 <header className="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200/50 dark:border-gray-800/50 px-6 lg:px-10 py-3.5 flex justify-between md:justify-end items-center transition-all">
                     {/* Mobile Only Brand Indicator */}
@@ -176,12 +179,12 @@ function AllDocuments() {
                     </div>
 
                     {/* Premium Profile Interactive Badge */}
-                    <div 
+                    <div
                         onClick={() => navigate("/profile")}
                         className="flex items-center gap-3 p-1.5 pr-3 hover:bg-gray-100 dark:hover:bg-gray-800/60 border border-transparent hover:border-gray-200/60 dark:hover:border-gray-700/60 rounded-xl transition-all duration-200 cursor-pointer group"
                     >
-                        {user.avatar ? (
-                            <img src={user.avatar} alt="Profile" className="h-8 w-8 rounded-lg object-cover ring-2 ring-blue-500/10" />
+                        {user.avatar_url ? (
+                            <img src={user.avatar_url} alt="Profile" className="h-8 w-8 rounded-lg object-cover ring-2 ring-blue-500/10" />
                         ) : (
                             <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-sm shadow-blue-500/20">
                                 {getInitials(user.name)}
@@ -201,7 +204,7 @@ function AllDocuments() {
 
                 {/* Main Dynamic Viewport Document Canvas */}
                 <main className="px-6 lg:px-10 py-10 max-w-5xl w-full mx-auto flex-1 relative z-10">
-                    
+
                     {/* Header Filters Module */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
                         <div>
@@ -212,7 +215,7 @@ function AllDocuments() {
                                 Review and manage centralized file systems extracted across workspace instances.
                             </p>
                         </div>
-                        
+
                         {/* Styled Project Selector Filter Dropdown */}
                         <div className="relative flex items-center self-start sm:self-center">
                             <SlidersHorizontal className="absolute left-3.5 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -257,11 +260,10 @@ function AllDocuments() {
                                 >
                                     <div className="space-y-3">
                                         {/* Dynamic File Extension Pill */}
-                                        <div className={`text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-lg w-fit ${
-                                            doc.file_type === "pdf"
-                                                ? "bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200/40 dark:border-red-900/30"
-                                                : "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200/40 dark:border-blue-900/30"
-                                        }`}>
+                                        <div className={`text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-lg w-fit ${doc.file_type === "pdf"
+                                            ? "bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200/40 dark:border-red-900/30"
+                                            : "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200/40 dark:border-blue-900/30"
+                                            }`}>
                                             {doc.file_type || "DOC"}
                                         </div>
 

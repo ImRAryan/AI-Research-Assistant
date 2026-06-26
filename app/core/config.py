@@ -32,6 +32,12 @@ class Settings(BaseSettings):
     MAIL_PASSWORD: str = ""
     MAIL_FROM: str = ""
 
+    # Gemini AI
+    GEMINI_API_KEY: str = ""  # ✅ add this
+
+    # Groq AI
+    GROQ_API_KEY: str = ""
+
     class Config:
         env_file = ".env"
 
