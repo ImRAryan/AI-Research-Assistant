@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: ra_user
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: research_assistant
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://ra_user:root@db:5432/research_assistant
+    depends_on:
+      - db
+    volumes:
+      - ./uploads:/app/uploads
+      - ./vector_indexes:/app/vector_indexes
+
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
