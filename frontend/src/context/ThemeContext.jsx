@@ -9,7 +9,7 @@ export function ThemeProvider({ children }) {
 
     const [showCitations, setShowCitations] = useState(() => {
         const stored = localStorage.getItem("showCitations")
-        return stored === null ? true : stored === "true"  // default ON
+        return stored === null ? true : stored === "true"
     })
 
     useEffect(() => {

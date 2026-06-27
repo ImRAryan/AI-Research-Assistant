@@ -21,7 +21,6 @@ function Dashboard() {
     const [hasDocuments, setHasDocuments] = useState(true)
     const [checkingDocs, setCheckingDocs] = useState(true)
 
-    // Fallback user state structure for the profile badge
     const [user, setUser] = useState({ name: "", email: "", avatar_url: "" })
 
     useEffect(() => {
@@ -173,21 +172,17 @@ function Dashboard() {
     const formatMessageContent = (content) => {
         if (showCitations) return content
 
-        // Remove anything from "SOURCE:" or "**Sources:**" onward (case-insensitive)
         return content.replace(/(\n*\s*(SOURCE:|sources:|\*\*Sources:\*\*)[\s\S]*)/i, "").trim()
     }
 
     return (
         <div className="flex h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 transition-colors duration-300 relative overflow-hidden">
 
-            {/* Ambient Background Glow System */}
             <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
-            {/* Left Sidebar Frame (Contextual Chat Panel) */}
             <aside className="w-64 fixed h-screen top-0 left-0 hidden md:flex flex-col justify-between backdrop-blur-lg bg-white/60 dark:bg-gray-900/60 border-r border-gray-200/50 dark:border-gray-800/50 p-4 z-50">
                 <div className="flex flex-col h-full overflow-hidden">
-                    {/* Upper Workspace Nav Control */}
                     <div className="pb-4 mb-2 border-b border-gray-200/50 dark:border-gray-800/50">
                         <button
                             onClick={() => navigate("/home")}
@@ -201,7 +196,6 @@ function Dashboard() {
                         </h1>
                     </div>
 
-                    {/* New Chat Deployment Core */}
                     <div className="py-2">
                         <button
                             onClick={handleNewChat}
@@ -212,7 +206,6 @@ function Dashboard() {
                         </button>
                     </div>
 
-                    {/* Recent Dynamic Chat Sessions Streams */}
                     <div className="flex-1 overflow-y-auto px-1 mt-4 space-y-1 scrollbar-thin">
                         <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5 px-2">
                             Recent Chats
@@ -245,7 +238,6 @@ function Dashboard() {
                     </div>
                 </div>
 
-                {/* Bottom System Utilities Configuration */}
                 <div className="border-t border-gray-200/50 dark:border-gray-800/50 pt-3 space-y-0.5">
                     <button
                         onClick={() => navigate("/settings")}
@@ -264,12 +256,9 @@ function Dashboard() {
                 </div>
             </aside>
 
-            {/* Content Hub Wrapper */}
             <div className="flex-1 md:pl-64 flex flex-col min-h-screen overflow-hidden">
 
-                {/* Profile Top Bar Header Container */}
                 <header className="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200/50 dark:border-b-gray-800/50 px-6 lg:px-10 py-3.5 flex justify-between items-center transition-all">
-                    {/* Header Action Routing Triggers */}
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => navigate(`/project/${projectId}/uploads`)}
@@ -280,7 +269,6 @@ function Dashboard() {
                         </button>
                     </div>
 
-                    {/* Active State Premium Profile Interactive Badge */}
                     <div
                         onClick={() => navigate("/profile")}
                         className="flex items-center gap-3 p-1.5 pr-3 hover:bg-gray-100 dark:hover:bg-gray-800/60 border border-transparent hover:border-gray-200/60 dark:hover:border-gray-700/60 rounded-xl transition-all duration-200 cursor-pointer group"
@@ -304,14 +292,12 @@ function Dashboard() {
                     </div>
                 </header>
 
-                {/* Sub-canvas Execution Pipeline Layer */}
                 {checkingDocs ? (
                     <div className="flex-1 flex flex-col items-center justify-center gap-3">
                         <Loader2 className="w-6 h-6 border-blue-600 text-blue-600 animate-spin" />
                         <p className="text-xs text-gray-400 font-medium tracking-wide">Analyzing knowledge graphs...</p>
                     </div>
                 ) : !hasDocuments ? (
-                    /* Zero State Content Vector Block */
                     <div className="flex-1 flex flex-col items-center justify-center px-6 relative z-10 animate-in fade-in zoom-in-95 duration-200">
                         <div className="backdrop-blur-md bg-white/40 dark:bg-gray-900/40 border border-dashed border-gray-300 dark:border-gray-800 rounded-2xl p-12 text-center max-w-md mx-auto flex flex-col items-center gap-4">
                             <div className="p-4 bg-white dark:bg-gray-900 border border-gray-200/60 dark:border-gray-800/60 shadow-sm rounded-2xl text-blue-500">
@@ -334,9 +320,7 @@ function Dashboard() {
                         </div>
                     </div>
                 ) : (
-                    /* Main Operational Chat Engine Interface Hub */
                     <>
-                        {/* Dynamic Message Scroll Feed Container */}
                         <div className="flex-1 overflow-y-auto px-6 lg:px-10 py-8 space-y-6 scrollbar-thin">
                             {messages.length === 0 && !isStreaming ? (
                                 <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto text-center relative z-10 animate-in fade-in duration-300">
@@ -372,7 +356,6 @@ function Dashboard() {
                                         </div>
                                     ))}
 
-                                    {/* Thinking Status Block */}
                                     {loading && (
                                         <div className="flex justify-start animate-in fade-in duration-200">
                                             <div className="backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 px-5 py-4 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-1">
@@ -383,7 +366,6 @@ function Dashboard() {
                                         </div>
                                     )}
 
-                                    {/* Dynamic Core Text Token Stream Card */}
                                     {isStreaming && (
                                         <div className="flex justify-start">
                                             <div className="backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 px-5 py-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] text-sm leading-relaxed font-medium">
@@ -398,7 +380,6 @@ function Dashboard() {
                             )}
                         </div>
 
-                        {/* Prompt Input Control Hub Footer */}
                         <div className="px-6 lg:px-10 py-6 backdrop-blur-md bg-white/40 dark:bg-gray-900/40 border-t border-gray-200/50 dark:border-gray-800/50 relative z-20">
                             <div className="max-w-3xl mx-auto flex items-center gap-3">
 

@@ -40,11 +40,10 @@ def _estimate_page_number(chunk_text: str, pages_text: list) -> int:
     best_page = None
     best_overlap = 0
 
-    chunk_snippet = chunk_text[:300].strip()  # use a longer snippet for accuracy
+    chunk_snippet = chunk_text[:300].strip()
 
     for page in pages_text:
         page_text = page["text"]
-        # Count how many characters of the chunk snippet actually appear in this page
         overlap = sum(1 for word in chunk_snippet.split() if word in page_text)
 
         if overlap > best_overlap:

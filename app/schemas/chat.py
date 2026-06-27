@@ -36,4 +36,4 @@ class ChatDetailResponse(BaseModel):
 class AskRequest(BaseModel):
     question: str
     filename: Optional[str] = None
-    chat_id: Optional[int] = None  # if None, create new chat
+    chat_id: Optional[int] = None

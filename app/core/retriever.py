@@ -38,7 +38,6 @@ def retrieve_relevant_chunks(project_id: int, query: str, db: Session) -> list[d
     print(f"{'='*60}")
 
     if is_broad_query(query):
-        # ✅ Broad query (e.g. "summarize") — pull top chunks from EVERY document fairly
         print(f"Broad query detected — sampling top {TOP_K_PER_DOC_FOR_BROAD_QUERY} chunks from each of {len(document_ids)} documents")
 
         results = []
@@ -48,10 +47,9 @@ def retrieve_relevant_chunks(project_id: int, query: str, db: Session) -> list[d
                 r["document_id"] = doc_id
             results.extend(doc_results)
 
-        filtered = results  # ✅ no threshold filtering for broad queries — we want a sample regardless of score
+        filtered = results
 
     else:
-        # Specific question — pure similarity-based global top_k
         results = search_multiple_documents(document_ids, query_embedding, top_k=TOP_K)
 
         print(f"Raw results from FAISS (top {TOP_K}, across {len(document_ids)} documents):")

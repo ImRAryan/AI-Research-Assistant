@@ -17,10 +17,8 @@ from app.models.chunk import Chunk
 from app.core.embedder import generate_embeddings_batch
 from app.core.vector_store import build_index
 
-# ✅ Project-scoped router
 router = APIRouter(prefix="/projects/{project_id}/documents", tags=["Documents"])
 
-# ✅ Separate router for global "all documents" endpoint
 global_router = APIRouter(prefix="/documents", tags=["Documents"])
 
 ALLOWED_TYPES = {
@@ -29,7 +27,7 @@ ALLOWED_TYPES = {
     "application/msword": "doc",
 }
 
-MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+MAX_FILE_SIZE = 10 * 1024 * 1024
 
 
 def get_project_or_404(project_id: int, user_id: int, db: Session) -> Project:
@@ -49,7 +47,7 @@ async def upload_document(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    get_project_or_404(project_id, current_user.id, db)  # ✅ verify ownership
+    get_project_or_404(project_id, current_user.id, db)
 
     if file.content_type not in ALLOWED_TYPES:
         raise HTTPException(status_code=400, detail="Only PDF and DOCX files are allowed")
@@ -69,7 +67,7 @@ async def upload_document(
 
     doc = Document(
         user_id=current_user.id,
-        project_id=project_id,  # ✅ scoped to project
+        project_id=project_id,
         original_name=file.filename,
         stored_name=stored_name,
         file_type=ext,
@@ -184,13 +182,10 @@ def download_document(
     )
 
 
-# =============================================================================
-# Global endpoint — all documents across all projects (for homepage)
-# =============================================================================
 
 @global_router.get("/all", response_model=List[DocumentResponse])
 def list_all_documents(
-    project_id: Optional[int] = None,  # ✅ optional filter by project
+    project_id: Optional[int] = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):

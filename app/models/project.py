@@ -17,5 +17,5 @@ class Project(Base):
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     owner = relationship("User", back_populates="projects")
-    documents = relationship("Document", back_populates="project", cascade="all, delete-orphan")  # ✅ new
-    chats = relationship("Chat", back_populates="project", cascade="all, delete-orphan")  # ✅ new
+    documents = relationship("Document", back_populates="project", cascade="all, delete-orphan")
+    chats = relationship("Chat", back_populates="project", cascade="all, delete-orphan")

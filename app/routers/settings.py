@@ -25,7 +25,7 @@ def clear_all_chats(
     count = len(chats)
 
     for chat in chats:
-        db.delete(chat)  # cascades to messages via relationship
+        db.delete(chat)
 
     db.commit()
 
@@ -46,12 +46,10 @@ def clear_all_documents(
     count = len(documents)
 
     for doc in documents:
-        # Delete physical file
         file_path = os.path.join("uploads", doc.stored_name)
         if os.path.exists(file_path):
             os.remove(file_path)
 
-        # Delete FAISS index files
         index_path = os.path.join("vector_indexes", f"doc_{doc.id}.index")
         mapping_path = os.path.join("vector_indexes", f"doc_{doc.id}.pkl")
         if os.path.exists(index_path):
@@ -59,7 +57,7 @@ def clear_all_documents(
         if os.path.exists(mapping_path):
             os.remove(mapping_path)
 
-        db.delete(doc)  # cascades to chunks via relationship
+        db.delete(doc)
 
     db.commit()
 
@@ -79,7 +77,6 @@ def clear_all_projects(
     projects = db.query(Project).filter(Project.user_id == current_user.id).all()
     count = len(projects)
 
-    # Clean up physical files/indexes for every document in every project first
     documents = db.query(Document).filter(Document.user_id == current_user.id).all()
     for doc in documents:
         file_path = os.path.join("uploads", doc.stored_name)
@@ -94,8 +91,7 @@ def clear_all_projects(
             os.remove(mapping_path)
 
     for project in projects:
-        db.delete(project)  # cascades to documents, chats, chunks via relationships
-
+        db.delete(project)
     db.commit()
 
     return {"message": f"Deleted {count} project(s) and all associated data"}

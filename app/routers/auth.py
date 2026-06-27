@@ -21,10 +21,6 @@ from pydantic import BaseModel
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
-# =============================================================================
-# PHASE 3: User Registration
-# =============================================================================
-
 @router.post(
     "/register",
     response_model=UserResponse,
@@ -40,13 +36,11 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
 
     if existing_user:
         if existing_user.is_verified:
-            # ✅ Already verified — genuinely a duplicate account
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="An account with this email already exists"
             )
 
-        # ✅ Unverified — overwrite their old attempt with new details + new OTP
         existing_user.name = user_data.name.strip()
         existing_user.password_hash = hashed
         existing_user.otp = otp
@@ -59,7 +53,6 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
 
         return existing_user
 
-    # ✅ Brand new user — create as before
     new_user = User(
         name=user_data.name.strip(),
         email=user_data.email.lower().strip(),
@@ -78,9 +71,6 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
     return new_user
 
 
-# =============================================================================
-# OTP Verification
-# =============================================================================
 
 class OTPVerifyRequest(BaseModel):
     email: str
@@ -110,9 +100,6 @@ def verify_otp(data: OTPVerifyRequest, db: Session = Depends(get_db)):
     return {"message": "Email verified successfully! You can now login."}
 
 
-# =============================================================================
-# PHASE 4: Login + JWT
-# =============================================================================
 
 @router.post(
     "/login",
@@ -163,9 +150,6 @@ def login(user_data: UserLogin, response: Response, db: Session = Depends(get_db
     )
 
 
-# =============================================================================
-# PHASE 5: Token Refresh
-# =============================================================================
 
 @router.post(
     "/refresh",
@@ -206,9 +190,6 @@ def refresh_token(request: Request, response: Response, db: Session = Depends(ge
     )
 
 
-# =============================================================================
-# PHASE 6: Logout
-# =============================================================================
 
 @router.post("/logout", summary="Logout and clear session")
 def logout(response: Response, current_user: User = Depends(get_current_user)):
@@ -216,9 +197,6 @@ def logout(response: Response, current_user: User = Depends(get_current_user)):
     return {"message": f"Goodbye, {current_user.name}! You have been logged out."}
 
 
-# =============================================================================
-# PHASE 8 (Optional): Google OAuth
-# =============================================================================
 
 @router.get("/google", summary="Start Google OAuth login flow")
 def google_login():
@@ -238,7 +216,7 @@ def google_login():
 
 @router.get("/google/callback", summary="Handle Google OAuth callback")
 async def google_callback(code: str, response: Response, db: Session = Depends(get_db)):
-    print("✅ CALLBACK HIT, code:", code[:20])
+    print("CALLBACK HIT, code:", code[:20])
 
     async with httpx.AsyncClient() as client:
         token_response = await client.post(

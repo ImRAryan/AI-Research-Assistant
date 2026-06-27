@@ -141,7 +141,6 @@ function Settings() {
                         </p>
                     </div>
 
-                    {/* Appearance */}
                     <div className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-gray-200/60 dark:border-gray-800/60 p-6 sm:p-8 rounded-2xl shadow-sm space-y-6 animate-in fade-in duration-300">
 
                         <div>
@@ -204,7 +203,6 @@ function Settings() {
                         </div>
                     </div>
 
-                    {/* Chat Preferences */}
                     <div className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-gray-200/60 dark:border-gray-800/60 p-6 sm:p-8 rounded-2xl shadow-sm space-y-6 animate-in fade-in duration-300">
 
                         <div>
@@ -240,14 +238,12 @@ function Settings() {
                                 </div>
                             </div>
 
-                            {/* Toggle switch */}
                             <div className={`relative w-11 h-6 rounded-full transition-colors shrink-0 ${showCitations ? "bg-blue-600" : "bg-gray-300 dark:bg-gray-700"}`}>
                                 <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${showCitations ? "translate-x-5" : "translate-x-0"}`} />
                             </div>
                         </button>
                     </div>
 
-                    {/* Danger Zone */}
                     <div className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-red-200/60 dark:border-red-900/40 p-6 sm:p-8 rounded-2xl shadow-sm space-y-5 animate-in fade-in duration-300">
 
                         <div>
@@ -259,7 +255,6 @@ function Settings() {
                             </p>
                         </div>
 
-                        {/* Clear all chats */}
                         <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-200/70 dark:border-gray-800/70 bg-gray-50/50 dark:bg-gray-950/30">
                             <div className="flex items-center gap-3">
                                 <div className="p-2.5 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-500">
@@ -284,7 +279,6 @@ function Settings() {
                             )}
                         </div>
 
-                        {/* Delete all documents */}
                         <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-200/70 dark:border-gray-800/70 bg-gray-50/50 dark:bg-gray-950/30">
                             <div className="flex items-center gap-3">
                                 <div className="p-2.5 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-500">
@@ -309,7 +303,6 @@ function Settings() {
                             )}
                         </div>
 
-                        {/* Delete all projects */}
                         <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-200/70 dark:border-gray-800/70 bg-gray-50/50 dark:bg-gray-950/30">
                             <div className="flex items-center gap-3">
                                 <div className="p-2.5 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-500">

@@ -2,8 +2,6 @@ def build_grounded_prompt(context: str, question: str) -> str:
     """
     Builds a strict grounded prompt that forces the LLM to answer
     ONLY from the supplied context, refusing to use outside knowledge.
-
-    Per Track 2.8 spec.
     """
     prompt = f"""
         You are a helpful assistant specialized in question answering over documents.

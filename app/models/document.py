@@ -10,7 +10,7 @@ class Document(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)  # ✅ required, replaces chat_id
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
     original_name = Column(String, nullable=False)
     stored_name = Column(String, nullable=False)
     file_type = Column(String, nullable=False)
@@ -25,5 +25,5 @@ class Document(Base):
     extraction_status = Column(String, default="pending")
 
     owner = relationship("User", back_populates="documents")
-    project = relationship("Project", back_populates="documents")  # ✅ new
+    project = relationship("Project", back_populates="documents")
     chunks = relationship("Chunk", back_populates="document", cascade="all, delete-orphan")

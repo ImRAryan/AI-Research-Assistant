@@ -86,16 +86,13 @@ def delete_account(
     """Permanently delete the current user's account and all related data,
     including uploaded files and vector indexes on disk."""
 
-    # Get all documents belonging to this user before deleting the DB record
     documents = db.query(Document).filter(Document.user_id == current_user.id).all()
 
     for doc in documents:
-        # Delete the physical uploaded file
         file_path = os.path.join("uploads", doc.stored_name)
         if os.path.exists(file_path):
             os.remove(file_path)
 
-        # Delete the FAISS index files for this document
         index_path = os.path.join("vector_indexes", f"doc_{doc.id}.index")
         mapping_path = os.path.join("vector_indexes", f"doc_{doc.id}.pkl")
         if os.path.exists(index_path):
@@ -103,7 +100,6 @@ def delete_account(
         if os.path.exists(mapping_path):
             os.remove(mapping_path)
 
-    # Now delete the user — cascades to projects, documents, chats, messages, chunks in DB
     db.delete(current_user)
     db.commit()
 

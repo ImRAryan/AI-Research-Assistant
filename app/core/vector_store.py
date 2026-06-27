@@ -58,7 +58,7 @@ def search_index_with_scores(document_id: int, query_embedding: list[float], top
 
 def search_multiple_documents(document_ids: list[int], query_embedding: list[float], top_k: int = 5) -> list[dict]:
     """
-    ✅ NEW: Search across multiple documents' indexes (project-wide search).
+    NEW: Search across multiple documents' indexes (project-wide search).
     Merges results from each document's index, then returns the global top_k.
     """
     all_results = []
@@ -66,10 +66,9 @@ def search_multiple_documents(document_ids: list[int], query_embedding: list[flo
     for doc_id in document_ids:
         doc_results = search_index_with_scores(doc_id, query_embedding, top_k=top_k)
         for r in doc_results:
-            r["document_id"] = doc_id  # tag which document this chunk came from
+            r["document_id"] = doc_id
         all_results.extend(doc_results)
 
-    # Sort all results across all documents by similarity, take global top_k
     all_results.sort(key=lambda x: x["similarity"], reverse=True)
     return all_results[:top_k]
 

@@ -5,8 +5,6 @@ const api = axios.create({
     withCredentials: true,
 })
 
-// Endpoints where a 401 means something OTHER than "session expired"
-// (e.g. wrong password) — skip the auto-refresh/logout behavior for these.
 const SKIP_REFRESH_PATHS = [
     "/users/change-password",
     "/auth/login",

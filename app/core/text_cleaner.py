@@ -11,22 +11,16 @@ def clean_text(text: str) -> str:
     if not text:
         return ""
 
-    # 1. Normalize unicode characters (fixes weird quotes, accents, etc.)
     text = unicodedata.normalize("NFKD", text)
 
-    # 2. Remove page number patterns like "Page 1", "Page 12"
     text = re.sub(r'Page\s+\d+', '', text, flags=re.IGNORECASE)
 
-    # 3. Fix broken sentences — join lines that were split mid-sentence
     text = text.replace("\n", " ")
 
-    # 4. Remove URLs
     text = re.sub(r'http\S+|www\.\S+', '', text)
 
-    # 5. Remove email addresses
     text = re.sub(r'\S+@\S+', '', text)
 
-    # 6. Remove common boilerplate phrases
     boilerplate_phrases = [
         "All Rights Reserved",
         "Copyright ©",
@@ -34,10 +28,8 @@ def clean_text(text: str) -> str:
     for phrase in boilerplate_phrases:
         text = text.replace(phrase, "")
 
-    # 7. Remove excessive special characters (keep basic punctuation)
     text = re.sub(r'[^a-zA-Z0-9\s.,!?;:()\-\'"]', '', text)
 
-    # 8. Normalize multiple spaces into one
     text = re.sub(r'\s+', ' ', text)
 
     return text.strip()

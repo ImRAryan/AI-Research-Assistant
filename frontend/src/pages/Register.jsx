@@ -10,7 +10,6 @@ function Register() {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleRegister = async (e) => {
-        // Prevent default HTML form submission behavior (allows Enter key to work safely)
         if (e) e.preventDefault()
 
         setIsLoading(true)
@@ -48,13 +47,11 @@ function Register() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 flex items-center justify-center p-4 transition-colors duration-300">
-            {/* Ambient Background Glows matching the Login Page */}
             <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-purple-400/20 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-blue-400/20 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="relative backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 p-8 md:p-10 rounded-2xl shadow-2xl w-full max-w-md transition-all duration-300 hover:shadow-purple-500/5">
                 
-                {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
                         Create an Account
@@ -64,9 +61,7 @@ function Register() {
                     </p>
                 </div>
 
-                {/* Form Wrapper */}
                 <form onSubmit={handleRegister} className="space-y-5">
-                    {/* Name Field */}
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">
                             Full Name
@@ -81,7 +76,6 @@ function Register() {
                         />
                     </div>
 
-                    {/* Email Field */}
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">
                             Email Address
@@ -96,7 +90,6 @@ function Register() {
                         />
                     </div>
 
-                    {/* Password Field */}
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">
                             Password
@@ -111,7 +104,6 @@ function Register() {
                         />
                     </div>
 
-                    {/* Submit Button with explicit hand cursor pointer handling */}
                     <button
                         type="submit"
                         disabled={isLoading}
@@ -121,7 +113,6 @@ function Register() {
                     </button>
                 </form>
 
-                {/* Footer Link */}
                 <p className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
                     Already have an account?
                     <Link

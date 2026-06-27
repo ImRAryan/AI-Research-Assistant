@@ -175,7 +175,6 @@ function Profile() {
 
                     <div className="grid grid-cols-1 gap-6">
 
-                        {/* Display Name */}
                         <section className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-gray-200/60 dark:border-gray-800/60 rounded-2xl p-6 shadow-sm">
                             <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800/60">
                                 <User className="w-4 h-4 text-blue-500" />
@@ -222,7 +221,6 @@ function Profile() {
                             </form>
                         </section>
 
-                        {/* Password — only for local accounts */}
                         {!isGoogleAccount && (
                             <section className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-gray-200/60 dark:border-gray-800/60 rounded-2xl p-6 shadow-sm">
                                 <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800/60">
@@ -292,7 +290,6 @@ function Profile() {
                             </section>
                         )}
 
-                        {/* Delete Account */}
                         <section className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-red-200/60 dark:border-red-900/40 rounded-2xl p-6 shadow-sm">
                             <div className="flex items-center gap-2 mb-4 pb-2 border-b border-red-100 dark:border-red-900/30">
                                 <AlertTriangle className="w-4 h-4 text-red-500" />

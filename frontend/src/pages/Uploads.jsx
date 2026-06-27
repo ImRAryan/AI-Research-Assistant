@@ -109,13 +109,11 @@ function Uploads() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 transition-colors duration-300 relative overflow-x-hidden py-6">
             
-            {/* Ambient Background Glow System */}
             <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
                 
-                {/* Header Navigation Strip */}
                 <header className="flex items-center justify-between mb-10 pb-4 border-b border-gray-200/50 dark:border-gray-800/50">
                     <button
                         onClick={() => navigate(`/project/${projectId}`)}
@@ -131,7 +129,6 @@ function Uploads() {
                 </header>
 
                 <main className="space-y-10">
-                    {/* Component Title Descriptor */}
                     <div>
                         <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
                             Document Library
@@ -141,7 +138,6 @@ function Uploads() {
                         </p>
                     </div>
 
-                    {/* Interactive Drag & Drop File Zone */}
                     <div
                         onDragOver={(e) => { e.preventDefault(); setDragOver(true) }}
                         onDragLeave={() => setDragOver(false)}
@@ -179,7 +175,6 @@ function Uploads() {
                         </label>
                     </div>
 
-                    {/* Repository Document Grid */}
                     <section className="space-y-4">
                         <div className="flex items-center gap-2 pb-2 border-b border-gray-200/40 dark:border-gray-800/40">
                             <HardDrive className="w-4 h-4 text-gray-400" />
@@ -207,7 +202,6 @@ function Uploads() {
                                         className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-gray-200/60 dark:border-gray-800/60 p-5 rounded-2xl shadow-sm flex flex-col justify-between group transition-all hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 relative"
                                     >
                                         <div className="space-y-3">
-                                            {/* Document Extension Badge Indicator */}
                                             <div className="flex items-center justify-between">
                                                 <span className={`inline-flex items-center text-[10px] font-black px-2 py-0.5 rounded-md uppercase tracking-wide border ${
                                                     doc.file_type?.toLowerCase() === "pdf"
@@ -221,7 +215,6 @@ function Uploads() {
                                                 </span>
                                             </div>
 
-                                            {/* File Metadata Text Stack */}
                                             <div className="space-y-1">
                                                 <h4 className="font-bold text-sm text-gray-900 dark:text-white line-clamp-2 leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" title={doc.original_name}>
                                                     {doc.original_name}
@@ -232,7 +225,6 @@ function Uploads() {
                                             </div>
                                         </div>
 
-                                        {/* Action Controller Strip */}
                                         <div className="flex items-center justify-end gap-1.5 mt-5 pt-3 border-t border-gray-100 dark:border-gray-800/60">
                                             <a
                                                 href={`http://127.0.0.1:8000/projects/${projectId}/documents/download/${doc.id}`}

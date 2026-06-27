@@ -14,10 +14,6 @@ from app.models.chunk import Chunk
 router = APIRouter(tags=["Vector & Embedding"])
 
 
-# =============================================================================
-# Track 2.5 — Embedding API
-# =============================================================================
-
 class EmbeddingRequest(BaseModel):
     text: str
 
@@ -40,10 +36,6 @@ def generate_embedding_endpoint(
         dimension=len(vector)
     )
 
-
-# =============================================================================
-# Track 2.6 — Vector Database APIs
-# =============================================================================
 
 class VectorIndexRequest(BaseModel):
     document_id: int
@@ -132,7 +124,6 @@ def search_vectors(
 
     chunks = db.query(Chunk).filter(Chunk.id.in_(chunk_ids)).all()
 
-    # Preserve the order returned by FAISS (most relevant first)
     chunk_map = {c.id: c for c in chunks}
     ordered_results = [
         ChunkResult(chunk_id=cid, chunk_text=chunk_map[cid].chunk_text)

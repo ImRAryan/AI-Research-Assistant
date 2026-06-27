@@ -1,7 +1,6 @@
 from sentence_transformers import SentenceTransformer
 import numpy as np
 
-# Load model once at module level (avoids reloading on every request)
 print("Loading embedding model...")
 _model = SentenceTransformer("all-MiniLM-L6-v2")
 print("Embedding model loaded.")

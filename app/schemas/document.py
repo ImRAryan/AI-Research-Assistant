@@ -9,7 +9,7 @@ class DocumentResponse(BaseModel):
     file_type: str
     file_size: int
     upload_date: datetime
-    project_id: int  # ✅ replaces chat_id
+    project_id: int
     title: Optional[str] = None
     author: Optional[str] = None
     page_count: Optional[int] = None

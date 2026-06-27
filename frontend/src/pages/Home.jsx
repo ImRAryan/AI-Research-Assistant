@@ -23,7 +23,6 @@ function Home() {
     const [newDesc, setNewDesc] = useState("")
     const [creating, setCreating] = useState(false)
 
-    // Fallback user state structure for the profile badge
     const [user, setUser] = useState({ name: "", email: "", avatar_url: "" })
 
     useEffect(() => {
@@ -90,7 +89,6 @@ function Home() {
         navigate("/")
     }
 
-    // Helper to get initials for the profile avatar fallback
     const getInitials = (name) => {
         return name ? name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) : "AI"
     }
@@ -98,14 +96,11 @@ function Home() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 flex transition-colors duration-300 relative overflow-x-hidden">
 
-            {/* Ambient Background Glow System */}
             <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
-            {/* Left Sidebar Frame */}
             <aside className="w-64 fixed h-screen top-0 left-0 hidden md:flex flex-col justify-between backdrop-blur-lg bg-white/60 dark:bg-gray-900/60 border-r border-gray-200/50 dark:border-gray-800/50 p-6 z-50">
                 <div className="space-y-8">
-                    {/* Brand Identifier */}
                     <div className="flex items-center gap-3 px-2">
                         <span className="h-8 w-8 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center shadow-md shadow-blue-500/20">
                             <span className="text-white font-black text-xs">A</span>
@@ -115,7 +110,6 @@ function Home() {
                         </h1>
                     </div>
 
-                    {/* Navigation Menu Links */}
                     <div className="space-y-1.5">
                         <p className="px-2 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Main Core</p>
 
@@ -143,9 +137,7 @@ function Home() {
                     </div>
                 </div>
 
-                {/* Bottom Control Segment */}
                 <div className="space-y-1">
-                    {/* Settings Button - Now moved here right above Logout */}
                     <button
                         onClick={() => navigate("/settings")}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/settings"
@@ -157,7 +149,6 @@ function Home() {
                         Settings
                     </button>
 
-                    {/* Logout Trigger Base */}
                     <button
                         onClick={handleLogout}
                         className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl text-sm font-medium transition-all cursor-pointer"
@@ -168,12 +159,9 @@ function Home() {
                 </div>
             </aside>
 
-            {/* Content Hub Wrapper */}
             <div className="flex-1 md:pl-64 flex flex-col min-h-screen">
 
-                {/* Enhanced Dynamic Profile Top Bar Container */}
                 <header className="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200/50 dark:border-gray-800/50 px-6 lg:px-10 py-3.5 flex justify-between md:justify-end items-center transition-all">
-                    {/* Mobile Only Brand Indicator */}
                     <div className="flex items-center gap-2 md:hidden">
                         <span className="h-7 w-7 rounded-lg bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center">
                             <span className="text-white font-black text-xs">A</span>
@@ -181,7 +169,6 @@ function Home() {
                         <h1 className="text-base font-extrabold tracking-tight text-gray-900 dark:text-white">Axoryn</h1>
                     </div>
 
-                    {/* Premium Profile Interactive Badge */}
                     <div
                         onClick={() => navigate("/profile")}
                         className="flex items-center gap-3 p-1.5 pr-3 hover:bg-gray-100 dark:hover:bg-gray-800/60 border border-transparent hover:border-gray-200/60 dark:hover:border-gray-700/60 rounded-xl transition-all duration-200 cursor-pointer group"
@@ -205,10 +192,8 @@ function Home() {
                     </div>
                 </header>
 
-                {/* Main Dynamic Viewport Workspace Canvas */}
                 <main className="px-6 lg:px-10 py-10 max-w-5xl w-full mx-auto flex-1 relative z-10">
 
-                    {/* Workspace Segment Title Module */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
                         <div>
                             <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
@@ -231,7 +216,6 @@ function Home() {
                         </button>
                     </div>
 
-                    {/* Dynamic Inline Creation Drawer Container */}
                     {creating && (
                         <div className="backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/60 dark:border-gray-800/60 p-6 rounded-2xl shadow-xl mb-10 max-w-xl transition-all duration-300 animate-in fade-in slide-in-from-top-4">
                             <h2 className="text-base font-bold text-gray-900 dark:text-white mb-4">Initialize Workspace</h2>
@@ -280,7 +264,6 @@ function Home() {
                         </div>
                     )}
 
-                    {/* Data View Conditional Pipeline */}
                     {loading ? (
                         <div className="flex flex-col items-center justify-center py-24 gap-3">
                             <div className="w-7 h-7 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
@@ -303,7 +286,6 @@ function Home() {
                             </button>
                         </div>
                     ) : (
-                        /* Grid Mapping Elements */
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-in fade-in duration-300">
                             {projects.map((p) => (
                                 <div

@@ -20,7 +20,6 @@ function AllDocuments() {
     const [loading, setLoading] = useState(true)
     const [selectedProject, setSelectedProject] = useState("")
 
-    // Fallback user state structure for the profile badge
     const [user, setUser] = useState({ name: "", email: "", avatar_url: "" })
 
     useEffect(() => {
@@ -97,14 +96,11 @@ function AllDocuments() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 flex transition-colors duration-300 relative overflow-x-hidden">
 
-            {/* Ambient Background Glow System */}
             <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
-            {/* Left Sidebar Frame */}
             <aside className="w-64 fixed h-screen top-0 left-0 hidden md:flex flex-col justify-between backdrop-blur-lg bg-white/60 dark:bg-gray-900/60 border-r border-gray-200/50 dark:border-gray-800/50 p-6 z-50">
                 <div className="space-y-8">
-                    {/* Brand Identifier */}
                     <div className="flex items-center gap-3 px-2">
                         <span className="h-8 w-8 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center shadow-md shadow-blue-500/20">
                             <span className="text-white font-black text-xs">A</span>
@@ -114,7 +110,6 @@ function AllDocuments() {
                         </h1>
                     </div>
 
-                    {/* Navigation Menu Links */}
                     <div className="space-y-1.5">
                         <p className="px-2 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Main Core</p>
 
@@ -142,7 +137,6 @@ function AllDocuments() {
                     </div>
                 </div>
 
-                {/* Bottom Control Segment */}
                 <div className="space-y-1">
                     <button
                         onClick={() => navigate("/settings")}
@@ -165,12 +159,9 @@ function AllDocuments() {
                 </div>
             </aside>
 
-            {/* Content Hub Wrapper */}
             <div className="flex-1 md:pl-64 flex flex-col min-h-screen">
 
-                {/* Enhanced Dynamic Profile Top Bar Container */}
                 <header className="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-gray-200/50 dark:border-gray-800/50 px-6 lg:px-10 py-3.5 flex justify-between md:justify-end items-center transition-all">
-                    {/* Mobile Only Brand Indicator */}
                     <div className="flex items-center gap-2 md:hidden">
                         <span className="h-7 w-7 rounded-lg bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center">
                             <span className="text-white font-black text-xs">A</span>
@@ -178,7 +169,6 @@ function AllDocuments() {
                         <h1 className="text-base font-extrabold tracking-tight text-gray-900 dark:text-white">Axoryn</h1>
                     </div>
 
-                    {/* Premium Profile Interactive Badge */}
                     <div
                         onClick={() => navigate("/profile")}
                         className="flex items-center gap-3 p-1.5 pr-3 hover:bg-gray-100 dark:hover:bg-gray-800/60 border border-transparent hover:border-gray-200/60 dark:hover:border-gray-700/60 rounded-xl transition-all duration-200 cursor-pointer group"
@@ -202,10 +192,8 @@ function AllDocuments() {
                     </div>
                 </header>
 
-                {/* Main Dynamic Viewport Document Canvas */}
                 <main className="px-6 lg:px-10 py-10 max-w-5xl w-full mx-auto flex-1 relative z-10">
 
-                    {/* Header Filters Module */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
                         <div>
                             <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
@@ -216,7 +204,6 @@ function AllDocuments() {
                             </p>
                         </div>
 
-                        {/* Styled Project Selector Filter Dropdown */}
                         <div className="relative flex items-center self-start sm:self-center">
                             <SlidersHorizontal className="absolute left-3.5 w-4 h-4 text-gray-400 pointer-events-none" />
                             <select
@@ -233,7 +220,6 @@ function AllDocuments() {
                         </div>
                     </div>
 
-                    {/* Content Logic Pipeline */}
                     {loading ? (
                         <div className="flex flex-col items-center justify-center py-24 gap-3">
                             <div className="w-7 h-7 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
@@ -250,7 +236,6 @@ function AllDocuments() {
                             </p>
                         </div>
                     ) : (
-                        /* Document Cards Layout */
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-in fade-in duration-300">
                             {documents.map((doc) => (
                                 <div
@@ -259,7 +244,6 @@ function AllDocuments() {
                                     className="group relative backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-gray-200/60 dark:border-gray-800/60 p-5 rounded-2xl shadow-sm flex flex-col justify-between cursor-pointer hover:shadow-xl dark:hover:shadow-blue-500/[0.01] hover:border-blue-500/30 dark:hover:border-blue-500/30 transition-all duration-200 hover:-translate-y-0.5"
                                 >
                                     <div className="space-y-3">
-                                        {/* Dynamic File Extension Pill */}
                                         <div className={`text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-lg w-fit ${doc.file_type === "pdf"
                                             ? "bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200/40 dark:border-red-900/30"
                                             : "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200/40 dark:border-blue-900/30"

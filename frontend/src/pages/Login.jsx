@@ -9,7 +9,6 @@ function Login() {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleLogin = async (e) => {
-        // Prevent default form submission behavior (allows Enter key to work safely)
         if (e) e.preventDefault()
 
         setIsLoading(true)
@@ -53,13 +52,11 @@ function Login() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 flex items-center justify-center p-4 transition-colors duration-300">
-            {/* Ambient Background Glows */}
             <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-400/20 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-purple-400/20 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="relative backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 p-8 md:p-10 rounded-2xl shadow-2xl w-full max-w-md transition-all duration-300 hover:shadow-blue-500/5">
 
-                {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
                         Welcome Back
@@ -69,9 +66,7 @@ function Login() {
                     </p>
                 </div>
 
-                {/* Form Wrapper */}
                 <form onSubmit={handleLogin} className="space-y-5">
-                    {/* Email Field */}
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">
                             Email Address
@@ -86,7 +81,6 @@ function Login() {
                         />
                     </div>
 
-                    {/* Password Field */}
                     <div>
                         <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2">
                             Password
@@ -101,7 +95,6 @@ function Login() {
                         />
                     </div>
 
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         disabled={isLoading}
@@ -111,7 +104,6 @@ function Login() {
                     </button>
                 </form>
 
-                {/* Divider */}
                 <div className="relative my-6">
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
@@ -123,7 +115,6 @@ function Login() {
                     </div>
                 </div>
 
-                {/* Google Button */}
                 <button
                     type="button"
                     onClick={() => {
@@ -140,7 +131,6 @@ function Login() {
                     Google
                 </button>
 
-                {/* Footer Link */}
                 <p className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
                     Don't have an account?
                     <Link

@@ -2,7 +2,7 @@ import fitz  # PyMuPDF
 from docx import Document as DocxDocument
 import os
 
-from app.core.text_cleaner import clean_text, remove_repeated_lines  # ✅ add this
+from app.core.text_cleaner import clean_text, remove_repeated_lines
 
 
 def extract_pdf(file_path: str) -> dict:
@@ -11,7 +11,7 @@ def extract_pdf(file_path: str) -> dict:
         doc = fitz.open(file_path)
 
         full_text = ""
-        pages_text = []  # ✅ list of (page_number, text) tuples
+        pages_text = []
 
         for page_num, page in enumerate(doc, start=1):
             page_text = page.get_text()
@@ -29,7 +29,7 @@ def extract_pdf(file_path: str) -> dict:
         return {
             "text": full_text.strip(),
             "cleaned_text": cleaned,
-            "pages_text": pages_text,  # ✅ new — per-page breakdown
+            "pages_text": pages_text,
             "page_count": page_count,
             "title": metadata.get("title") or None,
             "author": metadata.get("author") or None,
@@ -58,7 +58,6 @@ def extract_docx(file_path: str) -> dict:
 
         core_props = doc.core_properties
 
-        # ✅ Clean the extracted text
         deduped_text = remove_repeated_lines(full_text)
         cleaned = clean_text(deduped_text)
 
