@@ -6,6 +6,10 @@ from app.models.user import User, AuthProvider
 from app.core.security import get_current_user, verify_password, hash_password
 from app.schemas.user import UserUpdate, ChangePasswordRequest
 
+import os
+import shutil
+from app.models.document import Document
+
 router = APIRouter(
     prefix="/users",
     tags=["Users"]
@@ -71,3 +75,36 @@ def change_password(
     db.commit()
 
     return {"message": "Password updated successfully"}
+
+
+
+@router.delete("/me")
+def delete_account(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Permanently delete the current user's account and all related data,
+    including uploaded files and vector indexes on disk."""
+
+    # Get all documents belonging to this user before deleting the DB record
+    documents = db.query(Document).filter(Document.user_id == current_user.id).all()
+
+    for doc in documents:
+        # Delete the physical uploaded file
+        file_path = os.path.join("uploads", doc.stored_name)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        # Delete the FAISS index files for this document
+        index_path = os.path.join("vector_indexes", f"doc_{doc.id}.index")
+        mapping_path = os.path.join("vector_indexes", f"doc_{doc.id}.pkl")
+        if os.path.exists(index_path):
+            os.remove(index_path)
+        if os.path.exists(mapping_path):
+            os.remove(mapping_path)
+
+    # Now delete the user — cascades to projects, documents, chats, messages, chunks in DB
+    db.delete(current_user)
+    db.commit()
+
+    return {"message": "Account deleted successfully"}

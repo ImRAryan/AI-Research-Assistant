@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { ArrowLeft, User, Mail, Shield, Save, Loader2, Key } from "lucide-react"
+import { ArrowLeft, User, Mail, Shield, Save, Loader2, Key, AlertTriangle, Trash2 } from "lucide-react"
 import api from "../services/api"
 
 function Profile() {
@@ -15,6 +15,10 @@ function Profile() {
     const [currentPassword, setCurrentPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+    const [deleteConfirmText, setDeleteConfirmText] = useState("")
+    const [deleting, setDeleting] = useState(false)
 
     useEffect(() => {
         fetchProfile()
@@ -77,6 +81,26 @@ function Profile() {
             alert(msg)
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleDeleteAccount = async () => {
+        if (deleteConfirmText !== "DELETE") {
+            alert('Please type "DELETE" exactly to confirm')
+            return
+        }
+
+        setDeleting(true)
+        try {
+            await api.delete("/users/me")
+            localStorage.removeItem("access_token")
+            alert("Your account has been deleted")
+            navigate("/")
+        } catch (error) {
+            console.error(error)
+            const msg = error.response?.data?.detail || "Failed to delete account"
+            alert(msg)
+            setDeleting(false)
         }
     }
 
@@ -267,6 +291,61 @@ function Profile() {
                                 </p>
                             </section>
                         )}
+
+                        {/* Delete Account */}
+                        <section className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-red-200/60 dark:border-red-900/40 rounded-2xl p-6 shadow-sm">
+                            <div className="flex items-center gap-2 mb-4 pb-2 border-b border-red-100 dark:border-red-900/30">
+                                <AlertTriangle className="w-4 h-4 text-red-500" />
+                                <h3 className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">Danger Zone</h3>
+                            </div>
+
+                            {!showDeleteConfirm ? (
+                                <>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                                        Deleting your account permanently removes your projects, uploaded documents, chats, and all related data. This cannot be undone.
+                                    </p>
+                                    <button
+                                        onClick={() => setShowDeleteConfirm(true)}
+                                        className="flex items-center gap-2 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-950/60 text-red-600 dark:text-red-400 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                                    >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                        Delete My Account
+                                    </button>
+                                </>
+                            ) : (
+                                <div className="space-y-4">
+                                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                                        This action is permanent. Type <span className="font-bold text-red-600 dark:text-red-400">DELETE</span> below to confirm.
+                                    </p>
+                                    <input
+                                        type="text"
+                                        value={deleteConfirmText}
+                                        onChange={(e) => setDeleteConfirmText(e.target.value)}
+                                        placeholder="Type DELETE to confirm"
+                                        className="w-full border border-red-200 dark:border-red-900/50 bg-white dark:bg-gray-950 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 px-3.5 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
+                                    />
+                                    <div className="flex gap-3">
+                                        <button
+                                            onClick={handleDeleteAccount}
+                                            disabled={deleting || deleteConfirmText !== "DELETE"}
+                                            className="flex items-center gap-2 bg-red-600 hover:bg-red-500 active:scale-98 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                                        >
+                                            {deleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                                            Permanently Delete Account
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setShowDeleteConfirm(false)
+                                                setDeleteConfirmText("")
+                                            }}
+                                            className="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </section>
 
                     </div>
                 </main>

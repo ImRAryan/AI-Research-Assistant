@@ -6,7 +6,7 @@ import os
 
 from app.core.config import settings
 from app.database import engine, Base
-from app.routers import auth, project, users, documents, chat, vector
+from app.routers import auth, project, users, documents, chat, vector, settings as settings_router
 
 from app.models import user, project as project_model, document as document_model, chat as chat_model, chunk as chunk_model
 
@@ -45,6 +45,7 @@ app.include_router(documents.router)
 app.include_router(documents.global_router)
 app.include_router(chat.router)
 app.include_router(vector.router)
+app.include_router(settings_router.router)
 
 @app.get("/", tags=["Health"])
 def root():

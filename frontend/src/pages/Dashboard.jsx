@@ -1,12 +1,14 @@
 import { Plus, Trash2, MessageSquare, ArrowLeft, Upload, Settings, LogOut, ChevronRight, Send, Loader2 } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { useTheme } from "../context/ThemeContext"
 import api from "../services/api"
 import ReactMarkdown from "react-markdown"
 
 function Dashboard() {
     const navigate = useNavigate()
     const { projectId } = useParams()
+    const { showCitations } = useTheme()
 
     const [project, setProject] = useState(null)
     const [query, setQuery] = useState("")
@@ -168,6 +170,13 @@ function Dashboard() {
         return name ? name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) : "AI"
     }
 
+    const formatMessageContent = (content) => {
+        if (showCitations) return content
+
+        // Remove anything from "SOURCE:" or "**Sources:**" onward (case-insensitive)
+        return content.replace(/(\n*\s*(SOURCE:|sources:|\*\*Sources:\*\*)[\s\S]*)/i, "").trim()
+    }
+
     return (
         <div className="flex h-screen bg-gradient-to-br from-slate-50 via-gray-100 to-zinc-200 dark:from-gray-950 dark:via-slate-900 dark:to-zinc-900 transition-colors duration-300 relative overflow-hidden">
 
@@ -199,14 +208,14 @@ function Dashboard() {
                             className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-500 active:scale-98 text-white px-4 py-2.5 rounded-xl text-sm font-bold shadow-md shadow-blue-500/10 transition-all cursor-pointer"
                         >
                             <Plus className="w-4 h-4" />
-                            New Context Session
+                            New Chat
                         </button>
                     </div>
 
                     {/* Recent Dynamic Chat Sessions Streams */}
                     <div className="flex-1 overflow-y-auto px-1 mt-4 space-y-1 scrollbar-thin">
                         <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5 px-2">
-                            Recent Analysis Threads
+                            Recent Chats
                         </p>
                         {chats.length === 0 ? (
                             <p className="text-gray-400 dark:text-gray-600 text-xs italic px-2 py-1">No execution logs found.</p>
@@ -216,8 +225,8 @@ function Dashboard() {
                                     key={chat.id}
                                     onClick={() => loadChat(chat.id)}
                                     className={`flex items-center justify-between px-3 py-2 rounded-xl cursor-pointer group transition-all text-sm font-medium ${activeChatId === chat.id
-                                            ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200/50 dark:border-gray-700/50"
-                                            : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/40 hover:text-gray-900 dark:hover:text-white"
+                                        ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200/50 dark:border-gray-700/50"
+                                        : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/40 hover:text-gray-900 dark:hover:text-white"
                                         }`}
                                 >
                                     <div className="flex items-center gap-2.5 overflow-hidden">
@@ -243,14 +252,14 @@ function Dashboard() {
                         className="w-full flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/40 hover:text-gray-900 dark:hover:text-white rounded-xl text-xs font-semibold transition-all cursor-pointer"
                     >
                         <Settings className="w-3.5 h-3.5" />
-                        Settings Configuration
+                        Settings
                     </button>
                     <button
                         onClick={handleLogout}
                         className="w-full flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-red-600 dark:text-gray-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/10 rounded-xl text-xs font-semibold transition-all cursor-pointer"
                     >
                         <LogOut className="w-3.5 h-3.5" />
-                        System Logout
+                        Logout
                     </button>
                 </div>
             </aside>
@@ -310,17 +319,17 @@ function Dashboard() {
                             </div>
                             <div>
                                 <h2 className="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                                    Knowledge Base Empty
+                                    No Resources Added Yet
                                 </h2>
                                 <p className="text-xs text-gray-400 dark:text-gray-500 mt-1.5 leading-relaxed">
-                                    This workspace requires contextual inputs. Please ingest at least one PDF or DOCX file to configure the prompt routing pipelines.
+                                    Add at least one PDF or DOCX file to provide context for this workspace.
                                 </p>
                             </div>
                             <button
                                 onClick={() => navigate(`/project/${projectId}/uploads`)}
                                 className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md shadow-blue-500/10 transition-all active:scale-98 cursor-pointer mt-2"
                             >
-                                Route to Ingestion Manager
+                                Upload Documents
                             </button>
                         </div>
                     </div>
@@ -332,13 +341,13 @@ function Dashboard() {
                             {messages.length === 0 && !isStreaming ? (
                                 <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto text-center relative z-10 animate-in fade-in duration-300">
                                     <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-tight">
-                                        Vector Research Engine
+                                        Research Workspace
                                         <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-1">
-                                            AxorynAI Context Hub
+                                            AxorynAI Research Hub
                                         </span>
                                     </h1>
                                     <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base mt-4 max-w-lg mx-auto leading-relaxed">
-                                        Inquire against localized semantic knowledge stores seamlessly isolated inside this project cluster node.
+                                        Interact with your workspace knowledge through intelligent search and retrieval.
                                     </p>
                                 </div>
                             ) : (
@@ -349,12 +358,12 @@ function Dashboard() {
                                             className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom-2 duration-200`}
                                         >
                                             <div className={`max-w-[85%] px-5 py-3.5 rounded-2xl text-sm leading-relaxed font-medium ${msg.role === "user"
-                                                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/5 rounded-tr-none"
-                                                    : "backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 text-gray-800 dark:text-gray-200 shadow-sm rounded-tl-none"
+                                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/5 rounded-tr-none"
+                                                : "backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 text-gray-800 dark:text-gray-200 shadow-sm rounded-tl-none"
                                                 }`}>
                                                 {msg.role === "assistant" ? (
                                                     <div className="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-gray-200 prose-headings:font-bold prose-p:leading-relaxed prose-pre:bg-gray-50 dark:prose-pre:bg-gray-950/60 prose-pre:border dark:prose-pre:border-gray-800">
-                                                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                                        <ReactMarkdown>{formatMessageContent(msg.content)}</ReactMarkdown>
                                                     </div>
                                                 ) : (
                                                     <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -379,7 +388,7 @@ function Dashboard() {
                                         <div className="flex justify-start">
                                             <div className="backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 px-5 py-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] text-sm leading-relaxed font-medium">
                                                 <div className="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-gray-200">
-                                                    <ReactMarkdown>{streamingText}</ReactMarkdown>
+                                                    <ReactMarkdown>{formatMessageContent(streamingText)}</ReactMarkdown>
                                                 </div>
                                                 <span className="inline-block w-1.5 h-3.5 bg-blue-500 ml-1 animate-pulse align-middle" />
                                             </div>

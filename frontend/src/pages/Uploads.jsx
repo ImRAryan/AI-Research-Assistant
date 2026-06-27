@@ -134,10 +134,10 @@ function Uploads() {
                     {/* Component Title Descriptor */}
                     <div>
                         <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                            Knowledge Ingestion
+                            Document Library
                         </h2>
                         <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                            Ingest structured document assets into localized semantic vector spaces.
+                            Upload documents to build your workspace knowledge base and enable intelligent search and retrieval.
                         </p>
                     </div>
 
@@ -161,7 +161,7 @@ function Uploads() {
                         </div>
 
                         <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                            {uploading ? "Processing knowledge graph indexes..." : "Drag and drop document here"}
+                            {uploading ? "Processing documents..." : "Drag and drop document here"}
                         </p>
                         <p className="text-xs text-gray-400 dark:text-gray-500 mb-5">
                             Supports PDF or DOCX up to 10MB
@@ -191,12 +191,12 @@ function Uploads() {
                         {loading ? (
                             <div className="flex items-center gap-2 text-xs text-gray-400 py-4 font-medium">
                                 <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-                                Indexing document array...
+                                Processing documents...
                             </div>
                         ) : documents.length === 0 ? (
                             <div className="text-center py-12 backdrop-blur-md bg-white/30 dark:bg-gray-900/30 border border-gray-200/50 dark:border-gray-800/50 rounded-2xl">
                                 <p className="text-xs font-medium text-gray-400 dark:text-gray-500">
-                                    No documents indexed in this system workspace node yet.
+                                    No documents have been added to this workspace yet.
                                 </p>
                             </div>
                         ) : (

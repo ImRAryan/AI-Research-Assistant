@@ -122,8 +122,8 @@ function Home() {
                         <button
                             onClick={() => navigate("/home")}
                             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/home"
-                                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
-                                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
+                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
+                                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
                                 }`}
                         >
                             <LayoutDashboard className="w-4 h-4" />
@@ -133,8 +133,8 @@ function Home() {
                         <button
                             onClick={() => navigate("/all-documents")}
                             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/all-documents"
-                                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
-                                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
+                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
+                                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
                                 }`}
                         >
                             <FolderOpen className="w-4 h-4" />
@@ -149,8 +149,8 @@ function Home() {
                     <button
                         onClick={() => navigate("/settings")}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer group ${location.pathname === "/settings"
-                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
-                                : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
+                            ? "bg-blue-600 text-white shadow-md shadow-blue-500/10"
+                            : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800/60 hover:text-gray-900 dark:hover:text-white"
                             }`}
                     >
                         <SettingsIcon className="w-4 h-4" />
@@ -163,7 +163,7 @@ function Home() {
                         className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl text-sm font-medium transition-all cursor-pointer"
                     >
                         <LogOut className="w-4 h-4" />
-                        System Logout
+                        Logout
                     </button>
                 </div>
             </aside>
@@ -215,15 +215,15 @@ function Home() {
                                 Project Workspaces
                             </h1>
                             <p className="text-gray-500 dark:text-gray-400 mt-1.5 text-sm">
-                                Create workspace instances to safely catalog documents and activate specialized AI agents.
+                                Build focused workspaces for your documents and deploy AI agents designed for research, analysis, and discovery.
                             </p>
                         </div>
 
                         <button
                             onClick={() => setCreating(!creating)}
                             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm transition-all shadow-md cursor-pointer active:scale-98 self-start sm:self-center ${creating
-                                    ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
-                                    : "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/10"
+                                ? "bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
+                                : "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/10"
                                 }`}
                         >
                             {creating ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
@@ -255,7 +255,7 @@ function Home() {
                                     </label>
                                     <input
                                         type="text"
-                                        placeholder="Brief outline detailing workspace scope parameters..."
+                                        placeholder="Provide a short description of this workspace and its objectives..."
                                         value={newDesc}
                                         onChange={(e) => setNewDesc(e.target.value)}
                                         className="w-full border border-gray-300/80 dark:border-gray-700/80 bg-white dark:bg-gray-800/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 text-sm"
@@ -291,15 +291,15 @@ function Home() {
                             <div className="h-12 w-12 bg-gray-100 dark:bg-gray-800/50 rounded-xl flex items-center justify-center mx-auto mb-4 border border-gray-200 dark:border-gray-700">
                                 <FileText className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                             </div>
-                            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">No operational profiles found</h3>
+                            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">No operational workspaces found</h3>
                             <p className="text-gray-500 dark:text-gray-400 text-xs max-w-xs mx-auto mb-6">
-                                Create your first project workspace container to start loading dynamic AI resources.
+                                Create your first project workspace to begin exploring AI-assisted research and analysis.
                             </p>
                             <button
                                 onClick={() => setCreating(true)}
                                 className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-medium shadow-sm transition-all cursor-pointer"
                             >
-                                <Plus className="w-3.5 h-3.5" /> Assemble Canvas
+                                <Plus className="w-3.5 h-3.5" /> New Project
                             </button>
                         </div>
                     ) : (
@@ -320,7 +320,7 @@ function Home() {
                                             {p.project_name}
                                         </h2>
                                         <p className="text-gray-500 dark:text-gray-400 text-xs line-clamp-3 leading-relaxed">
-                                            {p.description || "No supplemental descriptor profiles designated for this active workspace."}
+                                            {p.description || "No workspace description available."}
                                         </p>
                                     </div>
 

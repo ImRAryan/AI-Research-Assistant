@@ -160,7 +160,7 @@ function AllDocuments() {
                         className="w-full flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl text-sm font-medium transition-all cursor-pointer"
                     >
                         <LogOut className="w-4 h-4" />
-                        System Logout
+                        Logout
                     </button>
                 </div>
             </aside>

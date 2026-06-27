@@ -5,6 +5,13 @@ const api = axios.create({
     withCredentials: true,
 })
 
+// Endpoints where a 401 means something OTHER than "session expired"
+// (e.g. wrong password) — skip the auto-refresh/logout behavior for these.
+const SKIP_REFRESH_PATHS = [
+    "/users/change-password",
+    "/auth/login",
+]
+
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("access_token")
     if (token) {
@@ -18,7 +25,9 @@ api.interceptors.response.use(
     async (error) => {
         const original = error.config
 
-        if (error.response?.status === 401 && !original._retry) {
+        const shouldSkip = SKIP_REFRESH_PATHS.some(path => original.url?.includes(path))
+
+        if (error.response?.status === 401 && !original._retry && !shouldSkip) {
             original._retry = true
 
             try {

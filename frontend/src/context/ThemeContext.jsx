@@ -7,6 +7,11 @@ export function ThemeProvider({ children }) {
         return localStorage.getItem("theme") || "light"
     })
 
+    const [showCitations, setShowCitations] = useState(() => {
+        const stored = localStorage.getItem("showCitations")
+        return stored === null ? true : stored === "true"  // default ON
+    })
+
     useEffect(() => {
         localStorage.setItem("theme", theme)
         if (theme === "dark") {
@@ -16,12 +21,20 @@ export function ThemeProvider({ children }) {
         }
     }, [theme])
 
+    useEffect(() => {
+        localStorage.setItem("showCitations", showCitations)
+    }, [showCitations])
+
     const toggleTheme = () => {
         setTheme(prev => prev === "light" ? "dark" : "light")
     }
 
+    const toggleCitations = () => {
+        setShowCitations(prev => !prev)
+    }
+
     return (
-        <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, setTheme, toggleTheme, showCitations, setShowCitations, toggleCitations }}>
             {children}
         </ThemeContext.Provider>
     )
