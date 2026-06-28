@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
+
 function Login() {
     const navigate = useNavigate()
 
@@ -14,7 +16,7 @@ function Login() {
         setIsLoading(true)
         try {
             const response = await fetch(
-                "http://127.0.0.1:8000/auth/login",
+                `${API_URL}/auth/login`,
                 {
                     method: "POST",
                     headers: {
@@ -118,7 +120,7 @@ function Login() {
                 <button
                     type="button"
                     onClick={() => {
-                        window.location.href = "http://localhost:8000/auth/google"
+                        window.location.href = `${API_URL}/auth/google`
                     }}
                     className="w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-200 py-3 rounded-xl border border-gray-300 dark:border-gray-700 font-medium active:scale-[0.99] transition-all duration-150 flex items-center justify-center gap-2.5 shadow-sm cursor-pointer"
                 >

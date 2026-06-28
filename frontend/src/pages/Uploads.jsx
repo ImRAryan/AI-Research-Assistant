@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import api from "../services/api"
 import { ArrowLeft, UploadCloud, FileText, Download, Trash2, Loader2, HardDrive } from "lucide-react"
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
+
 function Uploads() {
     const navigate = useNavigate()
     const { projectId } = useParams()
@@ -227,7 +229,7 @@ function Uploads() {
 
                                         <div className="flex items-center justify-end gap-1.5 mt-5 pt-3 border-t border-gray-100 dark:border-gray-800/60">
                                             <a
-                                                href={`http://127.0.0.1:8000/projects/${projectId}/documents/download/${doc.id}`}
+                                                href={`${API_URL}/projects/${projectId}/documents/download/${doc.id}`}
                                                 className="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-all cursor-pointer"
                                                 title="Download Source File"
                                             >

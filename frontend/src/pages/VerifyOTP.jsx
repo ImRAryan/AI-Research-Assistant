@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { ShieldCheck, ArrowLeft } from "lucide-react"
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
+
 function VerifyOTP() {
     const navigate = useNavigate()
     const location = useLocation()
@@ -21,7 +23,7 @@ function VerifyOTP() {
 
         try {
             const response = await fetch(
-                "http://127.0.0.1:8000/auth/verify-otp",
+                `${API_URL}/auth/verify-otp`,
                 {
                     method: "POST",
                     headers: {
