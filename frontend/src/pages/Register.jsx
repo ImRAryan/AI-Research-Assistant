@@ -38,7 +38,8 @@ function Register() {
                 return
             }
 
-            navigate("/verify-otp", { state: { email } })
+            alert("Account created successfully! You can now log in.")
+            navigate("/")
         } catch (error) {
             console.error(error)
             alert("Registration failed")

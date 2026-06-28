@@ -34,7 +34,7 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
     otp_expiry = datetime.now(timezone.utc) + timedelta(minutes=10)
     hashed = hash_password(user_data.password)
 
-    OTP_ENABLED = True
+    OTP_ENABLED = False
 
     if existing_user:
         if existing_user.is_verified:
