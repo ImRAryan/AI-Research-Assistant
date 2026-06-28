@@ -284,5 +284,5 @@ async def google_callback(code: str, response: Response, db: Session = Depends(g
         max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60
     )
 
-    frontend_url = f"http://localhost:5173/auth/callback?access_token={access_token}"
+    frontend_url = f"{settings.FRONTEND_URL}/auth/callback?access_token={access_token}"
     return RedirectResponse(url=frontend_url, status_code=302)

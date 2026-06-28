@@ -3,6 +3,8 @@ from typing import List
 
 
 class Settings(BaseSettings):
+
+    FRONTEND_URL: str = "http://localhost:5173"
     DATABASE_URL: str
 
     SECRET_KEY: str
