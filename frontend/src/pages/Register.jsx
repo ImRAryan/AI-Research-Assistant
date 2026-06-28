@@ -38,12 +38,7 @@ function Register() {
                 return
             }
 
-            // ===== TEMPORARY: OTP disabled, account is auto-verified =====
-            // To re-enable OTP flow, change this back to:
-            // navigate("/verify-otp", { state: { email } })
-            alert("Account created successfully! You can now log in.")
-            navigate("/")
-            // ================================================================
+            navigate("/verify-otp", { state: { email } })
         } catch (error) {
             console.error(error)
             alert("Registration failed")

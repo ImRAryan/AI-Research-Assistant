@@ -34,11 +34,7 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
     otp_expiry = datetime.now(timezone.utc) + timedelta(minutes=10)
     hashed = hash_password(user_data.password)
 
-    # ===== TEMPORARY: OTP EMAIL DISABLED (SMTP blocked on current host) =====
-    # To re-enable: set is_verified=False below and uncomment the
-    # `await send_otp_email(...)` lines.
-    OTP_ENABLED = False
-    # ==========================================================================
+    OTP_ENABLED = True
 
     if existing_user:
         if existing_user.is_verified:
