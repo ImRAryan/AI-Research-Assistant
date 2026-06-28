@@ -38,7 +38,12 @@ function Register() {
                 return
             }
 
-            navigate("/verify-otp", { state: { email } })
+            // ===== TEMPORARY: OTP disabled, account is auto-verified =====
+            // To re-enable OTP flow, change this back to:
+            // navigate("/verify-otp", { state: { email } })
+            alert("Account created successfully! You can now log in.")
+            navigate("/")
+            // ================================================================
         } catch (error) {
             console.error(error)
             alert("Registration failed")
@@ -53,7 +58,7 @@ function Register() {
             <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-blue-400/20 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="relative backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-800/50 p-8 md:p-10 rounded-2xl shadow-2xl w-full max-w-md transition-all duration-300 hover:shadow-purple-500/5">
-                
+
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
                         Create an Account

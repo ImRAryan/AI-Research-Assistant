@@ -34,6 +34,12 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
     otp_expiry = datetime.now(timezone.utc) + timedelta(minutes=10)
     hashed = hash_password(user_data.password)
 
+    # ===== TEMPORARY: OTP EMAIL DISABLED (SMTP blocked on current host) =====
+    # To re-enable: set is_verified=False below and uncomment the
+    # `await send_otp_email(...)` lines.
+    OTP_ENABLED = False
+    # ==========================================================================
+
     if existing_user:
         if existing_user.is_verified:
             raise HTTPException(
@@ -46,10 +52,14 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
         existing_user.otp = otp
         existing_user.otp_expiry = otp_expiry
 
+        if not OTP_ENABLED:
+            existing_user.is_verified = True
+
         db.commit()
         db.refresh(existing_user)
 
-        await send_otp_email(existing_user.email, otp)
+        if OTP_ENABLED:
+            await send_otp_email(existing_user.email, otp)
 
         return existing_user
 
@@ -57,7 +67,7 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
         name=user_data.name.strip(),
         email=user_data.email.lower().strip(),
         password_hash=hashed,
-        is_verified=False,
+        is_verified=not OTP_ENABLED,
         otp=otp,
         otp_expiry=otp_expiry,
     )
@@ -66,7 +76,8 @@ async def register(user_data: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    await send_otp_email(new_user.email, otp)
+    if OTP_ENABLED:
+        await send_otp_email(new_user.email, otp)
 
     return new_user
 
