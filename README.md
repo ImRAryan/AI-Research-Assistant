@@ -308,14 +308,12 @@ https://imraryan-research-assistant.hf.space/docs
 
 ## Future Enhancements
 
-* Streaming AI Responses
 * Hybrid Retrieval Mechanisms
 * Multi-Modal Document Understanding
 * Support for Additional Document Formats
 * Collaborative Research Workspaces
 * Advanced Citation Generation
 * Knowledge Graph Integration
-* Local LLM Support
 * Real-Time Collaboration Features
 
 ---
