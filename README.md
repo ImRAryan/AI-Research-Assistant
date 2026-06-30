@@ -356,5 +356,3 @@ The author expresses sincere gratitude to **Dr. Dilip Kumar** for his guidance, 
 ## Star the Repository
 
 If you find this project useful, consider giving the repository a star.
-
-Repositories survive on stars, caffeine, and developers insisting they'll "clean up the code later." Two of those are renewable resources.
