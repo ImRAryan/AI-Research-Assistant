@@ -347,7 +347,7 @@ https://github.com/ImRAryan
 
 ## Acknowledgements
 
-The author expresses sincere gratitude to **Dr. Dilip Kumar** for his guidance, mentorship, and support throughout the development of this project during the Summer Internship 2026 at **National Institute of Technology Jamshedpur (NIT Jamshedpur)**.
+I express sincere gratitude to **Dr. Dilip Kumar** for his guidance, mentorship, and support throughout the development of this project during the Summer Internship 2026 at **National Institute of Technology Jamshedpur (NIT Jamshedpur)**.
 
 ---
 
